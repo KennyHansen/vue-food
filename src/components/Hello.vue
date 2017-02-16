@@ -1,6 +1,11 @@
 <template>
   <div class="hello">
-    <form @submit.prevent="search">
+    <!--<calorie-count></calorie-count>-->
+
+    <h2> Total Calories: {{calories}} </h2>
+    <button @click="addCalories(1)">Eat a Calorie</button>
+
+    <form v-if="!details.report" @submit.prevent="search">
       <input type="text" v-model="query">
       <button type="submit">Find</button>
     </form>
@@ -10,7 +15,9 @@
     </ul>
 
     <div v-if="details.report" @click="details = {}">
-      {{details.report}}
+      {{details.report.foods[0]}} <br>
+      Calories: {{details.report.foods[0].nutrients[0].value}}  <br>
+      <button @click="eatFood(details.report)"> Eat </button>
     </div>
 
 
@@ -20,6 +27,7 @@
 
 <script>
 import foodService from '../food-service'
+import CalorieCount from './CalorieCount'
 
 export default {
   name: 'hello',
@@ -27,9 +35,11 @@ export default {
     return {
       query: '',
       foods: [],
-      details: {}
+      details: {},
+      calories: 0
     }
   },
+  // components: {CalorieCount},
   methods: {
     search(){
       foodService.findFoods(this.query).then(res => { res.json().then(foods => {
@@ -43,6 +53,13 @@ export default {
           this.details = d
         })
       })
+    },
+    eatFood(foodItem) {
+      var calories = foodItem.foods[0].nutrients[0].value || 0
+      this.addCalories(calories)
+    },
+    addCalories(calories) {
+        this.calories += parseInt(calories)
     }
   }
 }

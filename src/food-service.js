@@ -1,4 +1,4 @@
-const key = 'KmKbLrzzQtFhfFY2tyo9VRP09o3xWSt0YFhonsGI'
+const key = 'wcs9IXu0UpQuRLR2609KrLYgcLD9YfEaR4VP7Vjk'
 
 const searchUrl = `https://api.nal.usda.gov/ndb/search/?format=json&sort=r&max=25&offset=0&api_key=${key}&q=`
 
